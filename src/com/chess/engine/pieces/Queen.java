@@ -11,11 +11,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class Bishop extends Piece{
+public class Queen extends Piece {
+    private static final int[] CANDIDATE_MOVES_OFFSET = {-9,-8,-7,-1,1,8,7,9};
 
-    private static final int[] CANDIDATE_MOVES_OFFSET = {-9,-7,7,9};
-
-    Bishop(int piecePosition, Alliance pieceAlliance) {
+    Queen(int piecePosition, Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -62,12 +61,12 @@ public class Bishop extends Piece{
     private static boolean isFirstColumnExclusion(final int currentCandidate,
                                                   final int candidateDestinationCoordinate) {
         return (BoardUtils.FIRST_COLUMN[candidateDestinationCoordinate] &&
-                ((currentCandidate == -9) || (currentCandidate == 7)));
+                ((currentCandidate == -9) || (currentCandidate == 7) || (currentCandidate == -1)));
     }
 
     private static boolean isEighthColumnExclusion(final int currentCandidate,
                                                    final int candidateDestinationCoordinate) {
         return BoardUtils.EIGHT_COLUMN[candidateDestinationCoordinate] &&
-                ((currentCandidate == -7) || (currentCandidate == 9));
+                ((currentCandidate == -7) || (currentCandidate == 9) || (currentCandidate == -1));
     }
 }

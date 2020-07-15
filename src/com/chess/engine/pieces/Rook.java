@@ -11,11 +11,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class Bishop extends Piece{
+public class Rook extends Piece {
 
-    private static final int[] CANDIDATE_MOVES_OFFSET = {-9,-7,7,9};
+    private static final int[] CANDIDATE_MOVES_OFFSET = {-8, -1, 1, 8};
 
-    Bishop(int piecePosition, Alliance pieceAlliance) {
+
+    Rook(int piecePosition, Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
@@ -26,17 +27,17 @@ public class Bishop extends Piece{
         int candidateDestinationCoordinate;
 
         //Loop through all offsets
-        for(int currentOffset : CANDIDATE_MOVES_OFFSET){
+        for (int currentOffset : CANDIDATE_MOVES_OFFSET) {
             candidateDestinationCoordinate = this.piecePosition;
 
             //Keep going in direction of one offset until valid
-            while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)){
+            while (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                 if (isFirstColumnExclusion(currentOffset, candidateDestinationCoordinate) ||
                         isEighthColumnExclusion(currentOffset, candidateDestinationCoordinate)) {
                     break;
                 }
                 candidateDestinationCoordinate += currentOffset;
-                if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)){
+                if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
                     final Tile candidateDestinationTile = board.getTile(candidateDestinationCoordinate);
 
                     //First check if tile is occupied. If not, then keep moving and adding
@@ -47,7 +48,7 @@ public class Bishop extends Piece{
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
-                        if(this.pieceAlliance != pieceAlliance){
+                        if (this.pieceAlliance != pieceAlliance) {
                             legalMoves.add(new Move.AttackingMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                         }
 
@@ -59,15 +60,16 @@ public class Bishop extends Piece{
         }
         return Collections.unmodifiableList(legalMoves);
     }
+
     private static boolean isFirstColumnExclusion(final int currentCandidate,
                                                   final int candidateDestinationCoordinate) {
         return (BoardUtils.FIRST_COLUMN[candidateDestinationCoordinate] &&
-                ((currentCandidate == -9) || (currentCandidate == 7)));
+                ((currentCandidate == -1)));
     }
 
     private static boolean isEighthColumnExclusion(final int currentCandidate,
                                                    final int candidateDestinationCoordinate) {
         return BoardUtils.EIGHT_COLUMN[candidateDestinationCoordinate] &&
-                ((currentCandidate == -7) || (currentCandidate == 9));
+                ((currentCandidate == 1));
     }
 }
