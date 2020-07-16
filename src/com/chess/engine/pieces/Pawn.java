@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Pawn extends Piece{
 
-    private static final int[] CANDIDATE_MOVES = {8};
+    private static final int[] CANDIDATE_MOVES = {7,8,9,16};
 
     Pawn(final int piecePosition, final Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
@@ -30,7 +30,21 @@ public class Pawn extends Piece{
             }
             if(currentOffset == 8 && !board.getTile(candidateDestinationCoordinate).isTileOccupied()){
                 legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
-            } else if(currentOffset == 16 && this.isFirstMove() && true || true);
+            } else if(currentOffset == 16 && this.isFirstMove() && (BoardUtils.SECOND_ROW[this.piecePosition] && this.getPieceAlliance().isBlack()) ||
+                    ((BoardUtils.SEVENTH_ROW[this.piecePosition] && this.getPieceAlliance().isWhite()))){
+                int candidateBehindDestination = this.piecePosition + (this.pieceAlliance.getDirection()*8);
+                if(!board.getTile(candidateDestinationCoordinate).isTileOccupied() &&
+                        !board.getTile(candidateBehindDestination).isTileOccupied()){
+                    legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+
+                }
+            }
+            else if(currentOffset == 7){
+
+            }
+            else if(currentOffset == 9){
+
+            }
 
         }
 

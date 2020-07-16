@@ -7,8 +7,10 @@ import com.chess.engine.board.Move;
 import java.util.Collection;
 import java.util.List;
 
+//Abstract, so cant be instantiated
 public abstract class Piece {
 
+    //Each piece has a position and an alliance (black or white)
     protected final int piecePosition;
     protected final Alliance pieceAlliance;
     protected final boolean isFirstMove;

@@ -19,9 +19,11 @@ public class Knight extends Piece {
     private static final int[] CANDIDATE_MOVES_OFFSET = {-17,-15,-10,-6,6,10,15,17};
 
     Knight(final int piecePosition, final Alliance pieceAlliance) {
+        //Call constructor of parent class
         super(piecePosition, pieceAlliance);
     }
 
+    //Implement abstract methods of Piece class
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
         int candidateDestinationCoordinate;
@@ -58,6 +60,8 @@ public class Knight extends Piece {
         }
         return Collections.unmodifiableList(legalMoves);
     }
+
+    //Exclusions/Exceptions of Knight's moves
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
         return BoardUtils.FIRST_COLUMN[currentPosition] && ((candidateOffset == -17) ||
                 (candidateOffset == -10) || (candidateOffset == 6) || (candidateOffset == 15));
