@@ -39,11 +39,21 @@ public class Pawn extends Piece{
 
                 }
             }
-            else if(currentOffset == 7){
-
+            else if(currentOffset == 7 && ((BoardUtils.EIGHT_COLUMN[piecePosition]&& getPieceAlliance().isWhite() )||
+                    (BoardUtils.FIRST_COLUMN[piecePosition]&& getPieceAlliance().isBlack()))){
+                if(board.getTile(candidateDestinationCoordinate).isTileOccupied()){
+                    final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
+                    if(pieceOnCandidate.getPieceAlliance() != this.pieceAlliance){
+                        legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                    }
+                }
             }
-            else if(currentOffset == 9){
-
+            else if(currentOffset == 9 && ((BoardUtils.FIRST_COLUMN[piecePosition]&& getPieceAlliance().isWhite() )||
+                    (BoardUtils.EIGHT_COLUMN[piecePosition]&& getPieceAlliance().isBlack()))){
+                final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
+                if(pieceOnCandidate.getPieceAlliance() != this.pieceAlliance){
+                    legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                }
             }
 
         }
