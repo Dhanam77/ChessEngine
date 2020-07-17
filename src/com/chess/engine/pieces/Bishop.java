@@ -15,7 +15,7 @@ public class Bishop extends Piece{
 
     private static final int[] CANDIDATE_MOVES_OFFSET = {-9,-7,7,9};
 
-    Bishop(int piecePosition, Alliance pieceAlliance) {
+    public Bishop(Alliance pieceAlliance,int piecePosition) {
         super(piecePosition, pieceAlliance);
     }
 

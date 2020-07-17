@@ -14,7 +14,7 @@ import java.util.List;
 public class Queen extends Piece {
     private static final int[] CANDIDATE_MOVES_OFFSET = {-9,-8,-7,-1,1,8,7,9};
 
-    Queen(int piecePosition, Alliance pieceAlliance) {
+    public Queen(Alliance pieceAlliance,int piecePosition) {
         super(piecePosition, pieceAlliance);
     }
 

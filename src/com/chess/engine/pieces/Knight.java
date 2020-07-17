@@ -18,7 +18,7 @@ public class Knight extends Piece {
     //All moves of the knight
     private static final int[] CANDIDATE_MOVES_OFFSET = {-17,-15,-10,-6,6,10,15,17};
 
-    Knight(final int piecePosition, final Alliance pieceAlliance) {
+    public Knight(Alliance pieceAlliance,int piecePosition) {
         //Call constructor of parent class
         super(piecePosition, pieceAlliance);
     }

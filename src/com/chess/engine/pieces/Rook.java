@@ -16,9 +16,10 @@ public class Rook extends Piece {
     private static final int[] CANDIDATE_MOVES_OFFSET = {-8, -1, 1, 8};
 
 
-    Rook(int piecePosition, Alliance pieceAlliance) {
+    public Rook(Alliance pieceAlliance,int piecePosition) {
         super(piecePosition, pieceAlliance);
     }
+
 
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
