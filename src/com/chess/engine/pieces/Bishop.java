@@ -70,4 +70,9 @@ public class Bishop extends Piece{
         return BoardUtils.EIGHT_COLUMN[candidateDestinationCoordinate] &&
                 ((currentCandidate == -7) || (currentCandidate == 9));
     }
+
+    @Override
+    public String toString(){
+        return PieceType.BISHOP.toString();
+    }
 }

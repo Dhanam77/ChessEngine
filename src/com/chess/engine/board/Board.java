@@ -5,19 +5,61 @@ import com.chess.engine.pieces.*;
 
 import java.util.*;
 
+//Resembles the board og the chess
 public class Board {
 
+    //The main game board
     private List<Tile> gameBoard;
+
+    //List of active whitepieces
     private final Collection<Piece> whitePieces;
+
+    //List of active blackpieces
     private final Collection<Piece> blackPieces;
+
 
     private Board(Builder builder) {
         this.gameBoard = createGameBoard(builder);
         this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
         this.blackPieces = calculateActivePieces(this.gameBoard, Alliance.BLACK);
+
+        final Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(this.whitePieces);
+        final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(this.blackPieces);
+
+
     }
 
-    private Collection<Piece> calculateActivePieces(List<Tile> gameBoard, Alliance alliance) {
+    @Override
+    public String toString(){
+        final StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0;i < BoardUtils.NUM_TILES; i++){
+            final String tileText = this.gameBoard.get(i).toString();
+            stringBuilder.append(String.format("%3s", tileText));
+            if((i+1) % BoardUtils.NUM_TILES_PER_ROW == 0)stringBuilder.append(("\n"));
+        }
+
+        return stringBuilder.toString();
+    }
+
+    private String prettyPrint(Tile tile) {
+        if(tile.isTileOccupied()){
+            return tile.getPiece().getPieceAlliance().isBlack()?tile.toString().toLowerCase():
+                    tile.toString();
+        }
+        return tile.toString();
+    }
+
+    private Collection<Move> calculateLegalMoves(final Collection<Piece> pieces) {
+        final List<Move> legalMoves = new ArrayList<>();
+
+        for(final  Piece piece : pieces){
+            legalMoves.addAll(piece.calculateLegalMoves(this));
+        }
+
+        return Collections.unmodifiableList(legalMoves);
+    }
+
+    private static Collection<Piece> calculateActivePieces(List<Tile> gameBoard, Alliance alliance) {
         final List<Piece> activePieces = new ArrayList<>();
 
         for(final Tile tile : gameBoard){
@@ -92,7 +134,7 @@ public class Board {
         Alliance nextMoveMaker;
 
         public Builder(){
-
+            this.boardConfig = new HashMap<>();
         }
 
         public Builder setPiece(final Piece piece){

@@ -82,5 +82,8 @@ public class Knight extends Piece {
         return BoardUtils.EIGHT_COLUMN[currentPosition] && ((candidateOffset == -15) || (candidateOffset == -6) ||
                 (candidateOffset == 10) || (candidateOffset == 17));
     }
-
+    @Override
+    public String toString(){
+        return PieceType.KNIGHT.toString();
+    }
 }

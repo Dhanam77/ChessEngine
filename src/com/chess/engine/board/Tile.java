@@ -52,6 +52,11 @@ public abstract class Tile {
         public Piece getPiece() {
             return null;    //Since it is empty tile
         }
+
+        @Override
+        public String toString(){
+            return "-";
+        }
     }
 
     //Final class so it cant be extended
@@ -65,6 +70,10 @@ public abstract class Tile {
             this.pieceOnTile = pieceOnTile;
         }
 
+        @Override
+        public String toString(){
+            return getPiece().getPieceAlliance().isBlack()? getPiece().toString().toLowerCase():getPiece().toString();
+        }
 
         @Override
         public boolean isTileOccupied() {

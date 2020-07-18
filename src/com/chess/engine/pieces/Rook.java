@@ -73,4 +73,8 @@ public class Rook extends Piece {
         return BoardUtils.EIGHT_COLUMN[candidateDestinationCoordinate] &&
                 ((currentCandidate == 1));
     }
+    @Override
+    public String toString(){
+        return PieceType.ROOK.toString();
+    }
 }

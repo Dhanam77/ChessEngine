@@ -10,8 +10,19 @@ public class BoardUtils {
     public static final boolean[] SECOND_COLUMN = initColumn(1);
     public static final boolean[] SEVENTH_COLUMN = initColumn(6);
     public static final boolean[] EIGHT_COLUMN = initColumn(7);
-    public static final boolean[] SECOND_ROW = null;
-    public static final boolean[] SEVENTH_ROW = null;
+    public static final boolean[] SECOND_ROW = initRow(8);
+    public static final boolean[] SEVENTH_ROW = initRow(48);
+
+    private static boolean[] initRow(int rowNumber) {
+        final boolean[] row = new boolean[NUM_TILES];
+
+        do{
+            row[rowNumber] = true;
+            rowNumber++;
+        }while(rowNumber % NUM_TILES_PER_ROW != 0);
+
+        return row;
+    }
 
     //Initialize boolean array and set true to particular columns
     private static boolean[] initColumn(int column) {

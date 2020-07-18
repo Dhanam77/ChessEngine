@@ -69,4 +69,8 @@ public class Queen extends Piece {
         return BoardUtils.EIGHT_COLUMN[candidateDestinationCoordinate] &&
                 ((currentCandidate == -7) || (currentCandidate == 9) || (currentCandidate == -1));
     }
+    @Override
+    public String toString(){
+        return PieceType.QUEEN.toString();
+    }
 }

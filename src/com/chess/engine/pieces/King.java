@@ -28,11 +28,11 @@ public class King extends Piece {
         int candidateDestinationCoordinate;
         //Check if there are no exclusions. If there, move on to next offset
 
-        for(final int currentOffset : CANDIDATE_MOVES_OFFSET){
+        for(final int currentOffset : CANDIDATE_MOVES_OFFSET) {
             candidateDestinationCoordinate = this.piecePosition + currentOffset;
 
-            if(isFirstColumnExclusion(this.piecePosition,currentOffset) ||
-                    isEighthColumnExclusion(this.piecePosition,currentOffset)){
+            if (isFirstColumnExclusion(this.piecePosition, currentOffset) ||
+                    isEighthColumnExclusion(this.piecePosition, currentOffset)) {
                 continue;
             }
             if (BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)) {
@@ -46,15 +46,12 @@ public class King extends Piece {
                     final Piece pieceAtDestination = candidateDestinationTile.getPiece();
                     final Alliance pieceAlliance = pieceAtDestination.getPieceAlliance();
 
-                    if(this.pieceAlliance != pieceAlliance){
+                    if (this.pieceAlliance != pieceAlliance) {
                         legalMoves.add(new Move.AttackingMove(board, this, candidateDestinationCoordinate, pieceAtDestination));
                     }
                 }
             }
         }
-
-
-
         return Collections.unmodifiableList(legalMoves);
     }
     private static boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset) {
@@ -68,5 +65,8 @@ public class King extends Piece {
                 (candidateOffset == 1) || (candidateOffset == 9));
     }
 
-
+    @Override
+    public String toString(){
+        return PieceType.KING.toString();
+    }
 }

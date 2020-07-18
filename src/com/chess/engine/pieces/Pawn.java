@@ -51,14 +51,23 @@ public class Pawn extends Piece{
             else if(currentOffset == 9 && ((BoardUtils.FIRST_COLUMN[piecePosition]&& getPieceAlliance().isWhite() )||
                     (BoardUtils.EIGHT_COLUMN[piecePosition]&& getPieceAlliance().isBlack()))){
                 final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
-                if(pieceOnCandidate.getPieceAlliance() != this.pieceAlliance){
-                    legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                if(board.getTile(candidateDestinationCoordinate).isTileOccupied())
+                {
+                    if(pieceOnCandidate.getPieceAlliance() != this.pieceAlliance){
+                        legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                    }
                 }
+
             }
 
         }
 
 
         return Collections.unmodifiableList(legalMoves);
+    }
+
+    @Override
+    public String toString(){
+        return PieceType.PAWN.toString();
     }
 }
