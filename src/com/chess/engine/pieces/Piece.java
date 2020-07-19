@@ -17,8 +17,10 @@ public abstract class Piece {
     protected final int piecePosition;
     protected final Alliance pieceAlliance;
     protected final boolean isFirstMove;
+    protected final PieceType pieceType;
 
-    Piece(final int piecePosition, final Alliance pieceAlliance){
+    Piece(final PieceType pieceType, final int piecePosition, final Alliance pieceAlliance){
+        this.pieceType = pieceType;
         this.pieceAlliance = pieceAlliance;
         this.piecePosition = piecePosition;
         isFirstMove = false;
@@ -38,13 +40,47 @@ public abstract class Piece {
         return this.piecePosition;
     }
 
+    public PieceType getPieceType(){
+        return this.pieceType;
+    }
+
     public enum PieceType{
-        PAWN("P"),
-        KNIGHT("N"),
-        ROOK("R"),
-        BISHOP("B"),
-        QUEEN("Q"),
-        KING("K");
+        PAWN("P"){
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        KNIGHT("N") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        ROOK("R") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        BISHOP("B") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        QUEEN("Q") {
+            @Override
+            public boolean isKing() {
+                return false;
+            }
+        },
+        KING("K") {
+            @Override
+            public boolean isKing() {
+                return true;
+            }
+        };
 
 
         private String pieceName;
@@ -57,6 +93,8 @@ public abstract class Piece {
         public String toString(){
             return this.pieceName;
         }
+
+        public abstract boolean isKing();
 
     }
 }

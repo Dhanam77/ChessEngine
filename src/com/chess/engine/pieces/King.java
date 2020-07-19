@@ -16,7 +16,7 @@ public class King extends Piece {
     private static final int[] CANDIDATE_MOVES_OFFSET = {-9,-8,-7,-1,1,7,8,9};
 
     public King(Alliance pieceAlliance,int piecePosition) {
-        super(piecePosition, pieceAlliance);
+        super(PieceType.KING, piecePosition, pieceAlliance);
     }
 
 

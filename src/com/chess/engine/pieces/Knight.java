@@ -20,7 +20,7 @@ public class Knight extends Piece {
 
     public Knight(Alliance pieceAlliance,int piecePosition) {
         //Call constructor of parent class
-        super(piecePosition, pieceAlliance);
+        super(PieceType.KNIGHT, piecePosition, pieceAlliance);
     }
 
     //Implement abstract methods of Piece class
