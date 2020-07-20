@@ -22,7 +22,10 @@ public class Knight extends Piece {
         //Call constructor of parent class
         super(PieceType.KNIGHT, piecePosition, pieceAlliance);
     }
-
+    @Override
+    public Knight movePiece(final Move move) {
+        return new Knight(move.getMovedPiece().pieceAlliance, move.getDestinationCoordinate());
+    }
     //Implement abstract methods of Piece class
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {

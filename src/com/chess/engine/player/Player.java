@@ -36,6 +36,9 @@ public abstract class Player {
         return Collections.unmodifiableList(attackMoves);
     }
 
+    public King getPlayerKing(){
+        return this.playerKing;
+    }
 
     protected King establishKing(){
         for(Piece piece : getActivePieces()){
@@ -44,6 +47,10 @@ public abstract class Player {
             }
         }
         throw new RuntimeException("Not a valid board");
+    }
+
+    public Collection<Move> getLegalMoves(){
+        return this.legalMoves;
     }
 
     public boolean isLegalMove(final Move move){
@@ -64,7 +71,12 @@ public abstract class Player {
     protected boolean hasEscapeMoves(){
         for(final Move move : this.legalMoves){
             final MoveTransition transition = makeMove(move);
+            if(transition.getMoveStatus().isDone()){
+                return true;
+            }
         }
+        return false;
+
     }
 
     public boolean isCastled(){
@@ -72,7 +84,18 @@ public abstract class Player {
     }
 
     public MoveTransition makeMove(final Move move){
-        return null;
+        if(!this.isLegalMove(move)){
+            return new MoveTransition(this.board,move,MoveStatus.ILLEGAL_MOVE);
+        }
+
+        final Board transitionBoard = move.execute();
+        final Collection<Move> kingAttacks = Player.calculateAttacksOnTile(transitionBoard.currentPlayer().getOpponent().getPlayerKing()
+        .getPiecePosition(), transitionBoard.currentPlayer().getLegalMoves());
+
+        if(!kingAttacks.isEmpty()){
+            return new MoveTransition(this.board,move,MoveStatus.LEAVES_PLAYER_IN_CHECK);
+        }
+        return new MoveTransition(transitionBoard,move,MoveStatus.DONE);
     }
 
 

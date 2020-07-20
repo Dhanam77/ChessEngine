@@ -11,8 +11,6 @@ import java.util.List;
 //Abstract, so cant be instantiated
 public abstract class Piece {
 
-
-
     //Each piece has a position and an alliance (black or white)
     protected final int piecePosition;
     protected final Alliance pieceAlliance;
@@ -25,6 +23,8 @@ public abstract class Piece {
         this.piecePosition = piecePosition;
         isFirstMove = false;
     }
+
+    public abstract Piece movePiece(Move move);
 
     public boolean isFirstMove() {
         return this.isFirstMove;

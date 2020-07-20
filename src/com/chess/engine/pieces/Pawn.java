@@ -17,7 +17,10 @@ public class Pawn extends Piece{
     public Pawn(Alliance pieceAlliance,int piecePosition) {
         super(PieceType.PAWN, piecePosition, pieceAlliance);
     }
-
+    @Override
+    public Pawn movePiece(final Move move) {
+        return new Pawn(move.getMovedPiece().pieceAlliance, move.getDestinationCoordinate());
+    }
     @Override
     public Collection<Move> calculateLegalMoves(Board board) {
         final List<Move> legalMoves = new ArrayList<>();

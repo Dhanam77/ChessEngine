@@ -17,7 +17,10 @@ public class Queen extends Piece {
     public Queen(Alliance pieceAlliance,int piecePosition) {
         super(PieceType.QUEEN, piecePosition, pieceAlliance);
     }
-
+    @Override
+    public Queen movePiece(final Move move) {
+        return new Queen(move.getMovedPiece().pieceAlliance, move.getDestinationCoordinate());
+    }
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
 

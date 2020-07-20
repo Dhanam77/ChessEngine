@@ -20,11 +20,13 @@ public class Board {
     //List of active blackpieces
     private final Collection<Piece> blackPieces;
 
+    //Players
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
+    private final Player currentPlayer;
 
 
-    private Board(Builder builder) {
+    private Board(final Builder builder) {
         this.gameBoard = createGameBoard(builder);
         this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
         this.blackPieces = calculateActivePieces(this.gameBoard, Alliance.BLACK);
@@ -35,6 +37,7 @@ public class Board {
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
 
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
     }
 
     public Collection<Piece> getWhitePieces(){
@@ -43,7 +46,9 @@ public class Board {
     public Collection<Piece> getBlackPieces(){
         return blackPieces;
     }
-
+    public Player currentPlayer(){
+        return this.currentPlayer;
+    }
     @Override
     public String toString(){
         final StringBuilder stringBuilder = new StringBuilder();
@@ -106,7 +111,8 @@ public class Board {
     //Create initial board
     public static Board createStandardBoard(){
         final Builder builder = new Builder();
-        // Black Layout
+
+        // Black Layout pieces
         builder.setPiece(new Rook(Alliance.BLACK, 0));
         builder.setPiece(new Knight(Alliance.BLACK, 1));
         builder.setPiece(new Bishop(Alliance.BLACK, 2));
@@ -143,7 +149,7 @@ public class Board {
         builder.setPiece(new Rook(Alliance.WHITE, 63));
         //white to move first
         builder.setMoveMaker(Alliance.WHITE);
-        //build the board
+        //build the board and return it
         return builder.build();
     }
 
@@ -151,8 +157,10 @@ public class Board {
         return gameBoard.get(tileCoordinate);
     }
 
+    //A builder class which will build the game board
     public static class Builder{
 
+        //Pieces associated with each tile
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
 
@@ -160,10 +168,12 @@ public class Board {
             this.boardConfig = new HashMap<>();
         }
 
+        //Set all the pieces to position
         public Builder setPiece(final Piece piece){
             this.boardConfig.put(piece.getPiecePosition(), piece);
             return this;
         }
+
 
         public Builder setMoveMaker(final Alliance nextMoveMaker){
             this.nextMoveMaker = nextMoveMaker;
