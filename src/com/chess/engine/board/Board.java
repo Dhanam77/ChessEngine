@@ -157,6 +157,13 @@ public class Board {
         return gameBoard.get(tileCoordinate);
     }
 
+    public Iterable<Move> getAllLegalMoves() {
+        List<Move> allLegalMoves = new ArrayList<>();
+        allLegalMoves.addAll(this.whitePlayer.getLegalMoves());
+        allLegalMoves.addAll(this.blackPlayer.getLegalMoves());
+        return Collections.unmodifiableList(allLegalMoves);
+    }
+
     //A builder class which will build the game board
     public static class Builder{
 
