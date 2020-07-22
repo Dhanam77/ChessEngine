@@ -11,6 +11,10 @@ public abstract class Tile {
 
     private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
 
+    public int getTileCoordinate(){
+        return this.tileCoordinate;
+    }
+
     private static Map<Integer, EmptyTile> createAllPossibleEmptyTiles() {
         final Map<Integer, EmptyTile> emptyTilesMap = new HashMap<>();
         for(int i = 0;i < BoardUtils.NUM_TILES; i++){

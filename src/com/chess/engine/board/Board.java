@@ -78,13 +78,13 @@ public class Board {
     }
 
     private Collection<Move> calculateLegalMoves(final Collection<Piece> pieces) {
-        final List<Move> legalMoves = new ArrayList<>();
+        List<Move> legalMoves = new ArrayList<>();
 
         for(final  Piece piece : pieces){
             legalMoves.addAll(piece.calculateLegalMoves(this));
         }
 
-        return Collections.unmodifiableList(legalMoves);
+        return (legalMoves);
     }
 
     private static Collection<Piece> calculateActivePieces(List<Tile> gameBoard, Alliance alliance) {
@@ -170,6 +170,7 @@ public class Board {
         //Pieces associated with each tile
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
+        Pawn enPassantPawn;
 
         public Builder(){
             this.boardConfig = new HashMap<>();
@@ -191,5 +192,8 @@ public class Board {
             return new Board(this);
         }
 
+        public void setEnpassantPawn(Pawn enPassantPawn) {
+            this.enPassantPawn = enPassantPawn;
+        }
     }
 }
