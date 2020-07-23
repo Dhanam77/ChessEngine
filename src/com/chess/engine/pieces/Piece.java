@@ -14,8 +14,13 @@ public abstract class Piece {
     //Each piece has a position and an alliance (black or white)
     protected final int piecePosition;
     protected final Alliance pieceAlliance;
+
+    //Check if it's first move of the piece
     protected final boolean isFirstMove;
+
+    //Get piecetype
     protected final PieceType pieceType;
+
     private final int cachedHashCode;
 
     Piece(final PieceType pieceType, final int piecePosition, final Alliance pieceAlliance){

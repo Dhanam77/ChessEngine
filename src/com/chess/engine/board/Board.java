@@ -84,7 +84,7 @@ public class Board {
             legalMoves.addAll(piece.calculateLegalMoves(this));
         }
 
-        return (legalMoves);
+        return legalMoves;
     }
 
     private static Collection<Piece> calculateActivePieces(List<Tile> gameBoard, Alliance alliance) {
@@ -95,7 +95,7 @@ public class Board {
                 activePieces.add(tile.getPiece());
             }
         }
-        return Collections.unmodifiableList(activePieces);
+        return activePieces;
     }
 
 
@@ -105,7 +105,7 @@ public class Board {
         for(int i = 0;i < BoardUtils.NUM_TILES; i++){
             tiles[i] = Tile.createTile(i, builder.boardConfig.get(i));
         }
-        return Collections.unmodifiableList(Arrays.asList(tiles));
+        return Arrays.asList(tiles);
     }
 
     //Create initial board
@@ -161,7 +161,7 @@ public class Board {
         List<Move> allLegalMoves = new ArrayList<>();
         allLegalMoves.addAll(this.whitePlayer.getLegalMoves());
         allLegalMoves.addAll(this.blackPlayer.getLegalMoves());
-        return Collections.unmodifiableList(allLegalMoves);
+        return allLegalMoves;
     }
 
     //A builder class which will build the game board

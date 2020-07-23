@@ -11,6 +11,11 @@ public abstract class Tile {
 
     private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
 
+    private Tile(final int tileCoordinate){
+        this.tileCoordinate = tileCoordinate;
+    }
+
+
     public int getTileCoordinate(){
         return this.tileCoordinate;
     }
@@ -25,9 +30,6 @@ public abstract class Tile {
     }
 
 
-    private Tile(final int tileCoordinate){
-        this.tileCoordinate = tileCoordinate;
-    }
 
     //Declared abstract methods because each subclass will have different implementation
     //Since the methods are abstract, it must be implemented in subclasses
@@ -76,6 +78,7 @@ public abstract class Tile {
 
         @Override
         public String toString(){
+            //Black pieces will be denoted in lower case
             return getPiece().getPieceAlliance().isBlack()? getPiece().toString().toLowerCase():getPiece().toString();
         }
 
