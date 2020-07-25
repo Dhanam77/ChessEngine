@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Tile {
-    protected final int tileCoordinate;
-
+    private final int tileCoordinate;
     private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createAllPossibleEmptyTiles();
 
     private Tile(final int tileCoordinate){
@@ -29,17 +28,14 @@ public abstract class Tile {
         return Collections.unmodifiableMap(emptyTilesMap);
     }
 
-
-
     //Declared abstract methods because each subclass will have different implementation
     //Since the methods are abstract, it must be implemented in subclasses
     public abstract boolean isTileOccupied();
     public abstract Piece getPiece();
 
 
-
     public static Tile createTile(final int tileCoordinate, final Piece piece){
-        return piece != null?new OccupiedTile(tileCoordinate, piece): EMPTY_TILES_CACHE.get(tileCoordinate);
+        return piece != null?new OccupiedTile(tileCoordinate, piece): new EmptyTile(tileCoordinate);
     }
 
     //Final class so it cant be extended
@@ -59,6 +55,7 @@ public abstract class Tile {
             return null;    //Since it is empty tile
         }
 
+        //Empty tiles are represented as "-"
         @Override
         public String toString(){
             return "-";

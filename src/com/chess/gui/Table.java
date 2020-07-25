@@ -1,12 +1,16 @@
 package com.chess.gui;
 
+import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
-import com.chess.engine.board.Tile;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +25,12 @@ public class Table {
     private static final Dimension FRAME_DIMENSION= new Dimension(600,600);
     private final Color lightTileColor = Color.decode("#FFFACD");
     private final Color darkTileColor = Color.decode("#593E1A");
+    private final Board chessBoard;
+    private static final String defaultPieceImagesPath = "C:\\Users\\dhanam\\IdeaProjects\\Chess\\images\\icons\\plain\\";
 
     public Table(){
+        this.chessBoard = Board.createStandardBoard();
+
         this.gameFrame = new JFrame("ChessAI");
         this.gameFrame.setLayout(new BorderLayout());
         this.boardPanel = new BoardPanel();
@@ -86,15 +94,34 @@ public class Table {
             this.tileCoordinate = tileCoordinate;
             setPreferredSize(TILE_PANEL_DIMENSION);
             assignTileColor();
+            assignImageOnPiece(chessBoard);
             validate();
 
         }
 
+        private void assignImageOnPiece(final Board board) {
+            this.removeAll();
+            if(board.getTile(this.tileCoordinate).isTileOccupied()){
+                try{
+                    System.out.println(defaultPieceImagesPath +
+                            board.getTile(this.tileCoordinate).getPiece().getPieceAlliance().toString().substring(0,1) +
+                            board.getTile(tileCoordinate).getPiece().toString() + ".gif");
+                    final BufferedImage image = ImageIO.read(new File(defaultPieceImagesPath +
+                            board.getTile(this.tileCoordinate).getPiece().getPieceAlliance().toString().substring(0,1) +
+                            board.getTile(tileCoordinate).getPiece().toString() + ".gif"));
+                    add(new JLabel(new ImageIcon(image)));
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
         private void assignTileColor() {
-            if(BoardUtils.FIRST_ROW[this.tileCoordinate]
-            || BoardUtils.THIRD_ROW[this.tileCoordinate]
-            || BoardUtils.SEVENTH_ROW[this.tileCoordinate]
-                    || BoardUtils.FIFTH_ROW[this.tileCoordinate]){
+            if(BoardUtils.EIGHT_RANK[this.tileCoordinate]
+            || BoardUtils.SIXTH_RANK[this.tileCoordinate]
+            || BoardUtils.FOURTH_RANK[this.tileCoordinate]
+                    || BoardUtils.SECOND_RANK[this.tileCoordinate]){
                 if(tileCoordinate % 2 == 0) setBackground(lightTileColor);
                 else setBackground(darkTileColor);
             }

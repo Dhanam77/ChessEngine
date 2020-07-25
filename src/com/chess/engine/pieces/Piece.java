@@ -16,11 +16,13 @@ public abstract class Piece {
     protected final Alliance pieceAlliance;
 
     //Check if it's first move of the piece
+    //Required in cases of castling and pawn jump
     protected final boolean isFirstMove;
 
     //Get piecetype
     protected final PieceType pieceType;
 
+    //HashCode for each piece
     private final int cachedHashCode;
 
     Piece(final PieceType pieceType, final int piecePosition, final Alliance pieceAlliance){
@@ -55,21 +57,18 @@ public abstract class Piece {
     }
 
     public abstract Piece movePiece(Move move);
+    public abstract Collection<Move> calculateLegalMoves(final Board board);
+
 
     public boolean isFirstMove() {
         return this.isFirstMove;
     }
-
     public Alliance getPieceAlliance(){
         return this.pieceAlliance;
     }
-
-    public abstract Collection<Move> calculateLegalMoves(final Board board);
-
     public Integer getPiecePosition(){
         return this.piecePosition;
     }
-
     public PieceType getPieceType(){
         return this.pieceType;
     }

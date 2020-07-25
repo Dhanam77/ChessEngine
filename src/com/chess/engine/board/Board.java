@@ -27,10 +27,13 @@ public class Board {
 
 
     private Board(final Builder builder) {
+        //Create the board
         this.gameBoard = createGameBoard(builder);
+        //Calculate pieces on the board
         this.whitePieces = calculateActivePieces(this.gameBoard, Alliance.WHITE);
         this.blackPieces = calculateActivePieces(this.gameBoard, Alliance.BLACK);
 
+        //Calc legal moves
         final Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(this.whitePieces);
         final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(this.blackPieces);
 
@@ -41,18 +44,21 @@ public class Board {
     }
 
     public Collection<Piece> getWhitePieces(){
-        return whitePieces;
+        return this.whitePieces;
     }
     public Collection<Piece> getBlackPieces(){
-        return blackPieces;
+        return this.blackPieces;
     }
     public Player currentPlayer(){
         return this.currentPlayer;
     }
+
+    //Print the board
     @Override
     public String toString(){
         final StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0;i < BoardUtils.NUM_TILES; i++){
+            //Get a particular tile and call to string
             final String tileText = this.gameBoard.get(i).toString();
             stringBuilder.append(String.format("%3s", tileText));
             if((i+1) % BoardUtils.NUM_TILES_PER_ROW == 0)stringBuilder.append(("\n"));
@@ -77,6 +83,7 @@ public class Board {
         return tile.toString();
     }
 
+    //Calculate legal moves of a particular alliance
     private Collection<Move> calculateLegalMoves(final Collection<Piece> pieces) {
         List<Move> legalMoves = new ArrayList<>();
 
@@ -87,6 +94,7 @@ public class Board {
         return legalMoves;
     }
 
+    //Calculate the total no of active pieces
     private static Collection<Piece> calculateActivePieces(List<Tile> gameBoard, Alliance alliance) {
         final List<Piece> activePieces = new ArrayList<>();
 
@@ -108,9 +116,11 @@ public class Board {
         return Arrays.asList(tiles);
     }
 
-    //Create initial board
+    //Configure initial board with pieces at respective positions
     public static Board createStandardBoard(){
         final Builder builder = new Builder();
+
+        //Putting all the pieces at their standard positions in the boardConfig hashmap
 
         // Black Layout pieces
         builder.setPiece(new Rook(Alliance.BLACK, 0));
