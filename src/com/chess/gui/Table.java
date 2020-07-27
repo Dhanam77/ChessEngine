@@ -2,12 +2,18 @@ package com.chess.gui;
 
 import com.chess.engine.board.Board;
 import com.chess.engine.board.BoardUtils;
+import com.chess.engine.board.Move;
+import com.chess.engine.board.Tile;
+import com.chess.engine.pieces.Piece;
+import com.chess.engine.player.MoveTransition;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,20 +21,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.chess.engine.board.BoardUtils.NUM_TILES;
+import static javax.swing.SwingUtilities.isLeftMouseButton;
+import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class Table {
 
     private static final Dimension BOARD_PANEL_DIMENSION = new Dimension(400,350);
     private static final Dimension TILE_PANEL_DIMENSION = new Dimension(10,10);
     private final JFrame gameFrame;
+
     private final BoardPanel boardPanel;
+
+    private Tile sourceTile, destinationTile;
+    private Piece humanMovedPiece;
     private static final Dimension FRAME_DIMENSION= new Dimension(600,600);
+
     private final Color lightTileColor = Color.decode("#FFFACD");
     private final Color darkTileColor = Color.decode("#593E1A");
-    private final Board chessBoard;
+
+    private Board chessBoard;
+
     private static final String defaultPieceImagesPath = "C:\\Users\\dhanam\\IdeaProjects\\Chess\\images\\icons\\plain\\";
 
     public Table(){
+        //Initialise the configuration
         this.chessBoard = Board.createStandardBoard();
 
         this.gameFrame = new JFrame("ChessAI");
@@ -46,6 +62,7 @@ public class Table {
         menuBar.add(createFileMenu());
     }
 
+    // Create menubar
     private JMenu createFileMenu() {
         final JMenu fileMenu = new JMenu("File");
         final JMenuItem openPGN = new JMenuItem("Load PGN File");
@@ -83,6 +100,15 @@ public class Table {
             setPreferredSize(BOARD_PANEL_DIMENSION);
             validate();
         }
+        public void drawBoard(Board board){
+            removeAll();
+            for(final TilePanel tilePanel: boardTiles){
+                tilePanel.drawTile(board);
+                add(tilePanel);
+            }
+            validate();
+            repaint();
+        }
     }
 
     private class TilePanel extends JPanel{
@@ -97,6 +123,67 @@ public class Table {
             assignImageOnPiece(chessBoard);
             validate();
 
+            addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
+                    if(isRightMouseButton(e)){
+                        clearTiles();
+                    }
+                    else if(isLeftMouseButton(e)){
+                        if(sourceTile == null){
+                            sourceTile = chessBoard.getTile(tileCoordinate);
+                            humanMovedPiece = sourceTile.getPiece();
+                            if(humanMovedPiece == null){
+                                sourceTile = null;
+                            }
+                        }
+                        else{
+                            destinationTile = chessBoard.getTile(tileCoordinate);
+                            final Move move = Move.MoveFactory.createMove(chessBoard,sourceTile.getTileCoordinate(),
+                                    destinationTile.getTileCoordinate());
+                            final MoveTransition moveTransition = chessBoard.currentPlayer().makeMove(move);
+                            if(moveTransition.getMoveStatus().isDone()){
+                                chessBoard = moveTransition.getTransitionBoard();
+                            }
+                            clearTiles();
+                        }
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                boardPanel.drawBoard(chessBoard);
+                            }
+                        });
+                    }
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+        }
+        public void drawTile(final Board board){
+            assignTileColor();
+            assignImageOnPiece(board);
+            validate();
+            repaint();
         }
 
         private void assignImageOnPiece(final Board board) {
@@ -133,7 +220,11 @@ public class Table {
 
     }
 
-
+    private void clearTiles() {
+        sourceTile = null;
+        humanMovedPiece = null;
+        destinationTile = null;
+    }
 
 
 }

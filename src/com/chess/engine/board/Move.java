@@ -58,7 +58,7 @@ public abstract class Move {
     }
 
 
-    //Execute a move and then return a new board instead of mutating the existiong board
+    //Execute a move and then return a new board instead of mutating the existing board
     public Board execute() {
 
         //Create new builder object
